@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  VIP
+  PREMIUM
+  USER
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  clients      Client[]
+  clientKey    ClientKey?
+  Subscription Subscription?
+}
+
+model Client {
+  id        Int      @id @default(autoincrement())
+  username  String
+  hostname  String
+  hwid      String   @unique
+  ip        String
+  os        String
+  online    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  Console         Console[]
+  FileExplorer    FileExplorer[]
+  RegisterHistory ClientRegisterHistory[]
+}
+
+model ClientRegisterHistory {
+  id           Int      @id @default(autoincrement())
+  clientId     Int
+  registeredAt DateTime @default(now())
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+model ClientKey {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  createdAt DateTime @default(now())
+
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Console {
+  id        Int      @id @default(autoincrement())
+  hwid      String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  clientId Int
+  client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  messages Message[]
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  content   String
+  response  String
+  timestamp DateTime @default(now())
+
+  consoleId Int
+  console   Console @relation(fields: [consoleId], references: [id], onDelete: Cascade)
+}
+
+model FileExplorer {
+  id        Int      @id @default(autoincrement())
+  hwid      String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  clientId Int
+  client   Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+model Subscription {
+  id             String   @id @default(cuid())
+  customerId     String
+  subscriptionId String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

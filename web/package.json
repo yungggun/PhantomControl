@@ -1,0 +1,46 @@
+{
+  "name": "web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@heroui/react": "^2.6.14",
+    "@iconify/react": "^5.2.0",
+    "@stripe/react-stripe-js": "^3.3.0",
+    "@stripe/stripe-js": "^5.9.2",
+    "apexcharts": "^4.4.0",
+    "axios": "^1.7.9",
+    "clsx": "^2.1.1",
+    "cookie": "^1.0.2",
+    "date-fns": "^4.1.0",
+    "framer-motion": "^12.0.6",
+    "js-cookie": "^3.0.5",
+    "next": "15.1.6",
+    "nextjs-toploader": "^3.7.15",
+    "react": "^19.0.0",
+    "react-apexcharts": "^1.7.0",
+    "react-dom": "^19.0.0",
+    "sharp": "^0.33.5",
+    "socket.io-client": "^4.8.1",
+    "sonner": "^1.7.4",
+    "zustand": "^5.0.3"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/cookie": "^0.6.0",
+    "@types/js-cookie": "^3.0.6",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.6",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}

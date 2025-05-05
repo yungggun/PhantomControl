@@ -1,0 +1,49 @@
+version: "3.8"
+services:
+  phantomcontrol-web:
+    container_name: phantomcontrol-web
+    build:
+      context: web/
+      dockerfile: Dockerfile
+      target: prod
+    restart: always
+    networks:
+      - proxy
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./web/.env
+  phantomcontrol-server:
+    container_name: phantomcontrol-server
+    build:
+      context: server/
+      dockerfile: Dockerfile
+      target: prod
+    restart: always
+    env_file:
+      - ./server/.env
+    networks:
+      - proxy
+    ports:
+      - "3001:3001"
+    depends_on:
+      - phantomcontrol-db
+  phantomcontrol-db:
+    container_name: phantomcontrol-db
+    image: postgres:latest
+    restart: always
+    volumes:
+      - phantomcontrol-db-data:/var/lib/postgresql/data
+    networks:
+      - proxy
+    env_file:
+      - ./server/.env.production.local
+
+volumes:
+  phantomcontrol-db-data:
+    driver: local
+
+networks:
+  proxy:
+    external: false
+    name: proxy
