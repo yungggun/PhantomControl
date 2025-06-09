@@ -132,12 +132,12 @@ export class ClientGateway
   }
 
   restartClient(hwid: string) {
-  const clientSocket = this.clients.get(hwid);
-  if (!clientSocket) throw new ConflictException('Client not connected');
+    const clientSocket = this.clients.get(hwid);
+    if (!clientSocket) throw new ConflictException('Client not connected');
 
-  clientSocket.emit('restart');
+    clientSocket.emit('restart');
   }
-  
+
   sendCommandToClient(
     client: Client,
     command: string,
