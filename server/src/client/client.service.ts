@@ -69,6 +69,19 @@ export class ClientService {
     return this.clientGateway.destroyConnection(client.hwid);
   }
 
+  async restartClient(hwid: string, userId: number) {
+    const client = await this.prisma.client.findUnique({
+      where: {
+        hwid: hwid,
+        userId: userId,
+      },
+    });
+
+    if (!client) throw new NotFoundException('Client not found');
+
+    return this.clientGateway.restartClient(client.hwid);
+  }
+
   async registerClient(data: Client) {
     const user = await this.prisma.clientKey.findUnique({
       where: {
