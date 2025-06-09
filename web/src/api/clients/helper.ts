@@ -55,6 +55,19 @@ export class Helper {
       });
   }
 
+  async restartClient(hwid: string) {
+    return axios
+      .post(`/clients/${hwid}/restart`)
+      .then((response) => {
+        if (response.status !== 201 && response.status !== 200)
+          return { status: false };
+        return { status: true };
+      })
+      .catch(() => {
+        return { status: false };
+      });
+  }
+
   async downloadClientFile(onProgress: (progress: number) => void) {
     return axios
       .get("clients/download", {
