@@ -250,3 +250,11 @@ def handle_get_file_tree(data):
         sio.emit("getFileTreeResponse", {"status": True, "fileTree": file_tree})
     except Exception as e:
         sio.emit("getFileTreeResponse", {"status": False, "message": str(e)})
+
+
+
+@sio.on('restart')
+def restart_client():
+    print("Restarting client...")
+    sio.disconnect()
+    os.execl(sys.executable, sys.executable, *sys.argv)
