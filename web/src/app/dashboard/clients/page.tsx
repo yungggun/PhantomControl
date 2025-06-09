@@ -138,6 +138,25 @@ const ClientsPage = () => {
       },
     },
     {
+      name: "Restart",
+      key: "restart",
+      icon: "solar:restart-bold",
+      color: "secondary" as const,
+      onClick: async (client: Client) => {
+        if (client.hwid) {
+          apiClient.clients.helper
+            .restartClient(client.hwid)
+            .then((response) => {
+              if (response.status) {
+                toast.success("Client restarted successfully");
+              } else {
+                toast.error("Failed to restart client");
+              }
+            });
+        }
+      },
+    },
+    {
       name: "Delete",
       key: "delete",
       icon: "solar:trash-bin-trash-outline",
