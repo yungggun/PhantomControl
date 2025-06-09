@@ -59,6 +59,11 @@ export class ClientController {
     return this.clientService.destroyConnection(hwid, request.user.sub.id);
   }
 
+  @Post(':hwid/restart')
+  async restartClient(@Param('hwid') hwid: string, @Request() request) {
+    return this.clientService.restartClient(hwid, request.user.sub.id);
+  } 
+
   @Post(':hwid/file/upload')
   @UseInterceptors(FilesInterceptor('file'))
   async uploadFileToClient(
